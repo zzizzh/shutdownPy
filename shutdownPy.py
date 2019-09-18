@@ -19,7 +19,7 @@ class Client (threading.Thread):
 	def __init__(self, ip, port, name, process):
 		threading.Thread.__init__(self) 
 		self.ip=ip
-		self.port=port
+		self.port=int(port)
 		self.name=name
 		self.process_name = process
 		self.NetworkInit()
