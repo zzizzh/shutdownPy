@@ -1,0 +1,4 @@
+SERVER_PORT=11117
+SERVER_IP=127.0.0.1
+PC_NAME=shutdown_test
+PROCESS_NAME=notepad
