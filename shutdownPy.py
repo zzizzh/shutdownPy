@@ -32,7 +32,6 @@ class Client (threading.Thread):
 
 		self.packet = {'IF_CODE' : 'Device', 'Client' : 'BACKEND/' + self.name, 'Type' : 'client' }
 		self.NetworkWrite(self.packet)
-		self.requests.clear()
 
 	def run(self):
 		self.RequestProcess()
@@ -89,7 +88,7 @@ def main():
 	SERVER_PORT=0
 	SERVER_IP=''
 	PC_NAME=''
-	PROCESS_NAME=''
+	PROCESS_NAMES={}
 
 	for line in lines:
 		name, value = line.strip().split('=')
@@ -101,7 +100,7 @@ def main():
 		elif name=='PC_NAME':
 			PC_NAME=value
 		elif name=='PROCESS_NAME':
-			PROCESS_NAME=value
+			PROCESS_NAMES[value]=value
 
 	#테스트 할때만 True
 	check=True
@@ -112,10 +111,12 @@ def main():
 		all_ps = os.popen('tasklist').read()
 
 		for process in regex.findall(all_ps) :
+			process = process[:-1]
 			# wol로 pc를 on 한 다음 자동으로 영상 프로그램 등이 실행되는 것을 확인해야 함
-			if process == process_name:
+			if PROCESS_NAMES.get(process) != None:
+				del PROCESS_NAMES[process]
 				check=True
-				break
+	
 	client = Client(SERVER_IP, SERVER_PORT, PC_NAME, PROCESS_NAME)
 	client.start()
 
