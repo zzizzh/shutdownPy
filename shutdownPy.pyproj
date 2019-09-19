@@ -24,6 +24,7 @@
     <Compile Include="shutdownPy.py" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="conf.txt" />
     <Content Include="pyinstaller.spec" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />

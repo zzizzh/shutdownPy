@@ -16,12 +16,12 @@ and wait another connection from client
 '''
 class Client (threading.Thread):
 
-	def __init__(self, ip, port, name, process):
+	def __init__(self, ip, port, name, processes):
 		threading.Thread.__init__(self) 
 		self.ip=ip
 		self.port=int(port)
 		self.name=name
-		self.process_name = process
+		self.process_names = processes
 		self.NetworkInit()
 
 	def NetworkInit(self):
@@ -61,7 +61,11 @@ class Client (threading.Thread):
 				#실행중인 프로세스 종료 후 PC 종료.
 				if parse['IF_CODE']=='SHUTDOWN':
 					print(packets)
-					os.system('taskkill.exe /f /im ' + self.process_name)
+					self.process_names = self.process_names.keys()
+					
+					for process_name in self.process_names:
+						os.system('taskkill.exe /f /im ' + process_name)
+					
 					os.system('shutdown -s -t 30')
 					return
 			
@@ -117,7 +121,7 @@ def main():
 				del PROCESS_NAMES[process]
 				check=True
 	
-	client = Client(SERVER_IP, SERVER_PORT, PC_NAME, PROCESS_NAME)
+	client = Client(SERVER_IP, SERVER_PORT, PC_NAME, PROCESS_NAMES)
 	client.start()
 
 if __name__ == '__main__':
